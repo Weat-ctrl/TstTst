@@ -2,7 +2,7 @@
     <!DOCTYPE html>
     <html>
       <head>
-        <title>Simple AR Overlay</title>
+        <title>Hiro Marker AR</title>
         <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
         <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.js"></script>
       </head>
@@ -11,16 +11,18 @@
           <a-assets>
             <video id="outputVideo" autoplay loop crossorigin="anonymous" src="output.mp4"></video>
           </a-assets>
-          <a-video 
-            src="#outputVideo"
-            position="0 1 -2"  <!-- Centered position -->
-            width="0.8"       <!-- Width resized for smaller overlay -->
-            height="0.5"      <!-- Height resized for smaller overlay -->
-            autoplay="true"
-            loop="true"
-            material="opacity: 1; shader: flat;">
-          </a-video>
-          <a-camera-static position="0 0 0"></a-camera-static>
+          <a-marker preset="hiro">
+            <a-video 
+              src="#outputVideo"
+              rotation="-90 0 0"
+              width="0.8"
+              height="0.5"
+              autoplay="true"
+              loop="true"
+              material="shader: flat;">
+            </a-video>
+          </a-marker>
+          <a-camera-static></a-camera-static>
         </a-scene>
       </body>
     </html>
