@@ -24,7 +24,7 @@
             const arScene = document.querySelector('a-scene');
             const arContent = document.createElement('a-video');
             arContent.setAttribute('src', '#outputVideo');
-            arContent.setAttribute('position', '0 1.5 -3');  // Initial position
+            arContent.setAttribute('position', '0 0 -3');  // Initial position in the lower third
             arContent.setAttribute('rotation', '0 0 0');
             arContent.setAttribute('width', '1.6');          // Match 512 x 320 ratio
             arContent.setAttribute('height', '1');           // Match 512 x 320 ratio
@@ -49,7 +49,7 @@
                 const z = cameraPosition.z - offset * Math.cos(radiansY);
 
                 // Set the position of the AR object
-                arContent.setAttribute('position', { x: cameraPosition.x, y: cameraPosition.y + 1.5, z: cameraPosition.z - 3 });
+                arContent.setAttribute('position', { x: cameraPosition.x, y: cameraPosition.y - 1, z: cameraPosition.z - 3 });
               }
             });
 
