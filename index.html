@@ -2,73 +2,24 @@
     <!DOCTYPE html>
     <html>
       <head>
-        <title>Location-Based AR</title>
+        <title>Simple AR Overlay</title>
         <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
         <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.js"></script>
-        <script>
-          // Function to get user's location
-          function getUserLocation(callback) {
-            if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(function(position) {
-                callback(position.coords.latitude, position.coords.longitude);
-              }, function(error) {
-                console.error("Error getting location: ", error);
-              });
-            } else {
-              console.log("Geolocation is not supported by this browser.");
-            }
-          }
-
-          // Set up AR content based on user's location
-          function setupARContent(latitude, longitude) {
-            const arScene = document.querySelector('a-scene');
-            const arContent = document.createElement('a-video');
-            arContent.setAttribute('src', '#outputVideo');
-            arContent.setAttribute('position', '0 0 -3');  // Initial position in the lower third
-            arContent.setAttribute('rotation', '0 0 0');
-            arContent.setAttribute('width', '1.6');          // Match 512 x 320 ratio
-            arContent.setAttribute('height', '1');           // Match 512 x 320 ratio
-            arContent.setAttribute('transparent', 'false');
-            arContent.setAttribute('autoplay', 'true');
-            arContent.setAttribute('loop', 'true');
-            arContent.setAttribute('material', 'shader: flat;');
-
-            arScene.appendChild(arContent);
-
-            // Register component to keep AR content in view
-            AFRAME.registerComponent('always-visible', {
-              tick: function () {
-                const camera = this.el.sceneEl.camera.el;
-                const cameraPosition = camera.getAttribute('position');
-                const cameraRotation = camera.getAttribute('rotation');
-
-                // Calculate new position relative to the camera
-                const offset = 2.5; // Adjust offset to control distance from camera
-                const radiansY = cameraRotation.y * (Math.PI / 180);
-                const x = cameraPosition.x - offset * Math.sin(radiansY);
-                const z = cameraPosition.z - offset * Math.cos(radiansY);
-
-                // Set the position of the AR object
-                arContent.setAttribute('position', { x: cameraPosition.x, y: cameraPosition.y - 1, z: cameraPosition.z - 3 });
-              }
-            });
-
-            arContent.setAttribute('always-visible', '');
-          }
-
-          // Initialize AR content once the scene is ready
-          window.onload = function() {
-            getUserLocation(function(latitude, longitude) {
-              setupARContent(latitude, longitude);
-            });
-          }
-        </script>
       </head>
       <body style='margin: 0px; overflow: hidden;'>
         <a-scene embedded arjs='trackingMethod: best; sourceType: webcam;'>
           <a-assets>
             <video id="outputVideo" autoplay loop crossorigin="anonymous" src="output.mp4"></video>
           </a-assets>
+          <a-video 
+            src="#outputVideo"
+            position="0 1 -2"  <!-- Centered position -->
+            width="0.8"       <!-- Width resized for smaller overlay -->
+            height="0.5"      <!-- Height resized for smaller overlay -->
+            autoplay="true"
+            loop="true"
+            material="opacity: 1; shader: flat;">
+          </a-video>
           <a-camera-static position="0 0 0"></a-camera-static>
         </a-scene>
       </body>
